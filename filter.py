@@ -9,7 +9,7 @@
 #-------------------------------------------------------------------------------
 
 import webapp2
-
+import json
 class Filter(webapp2.RequestHandler):
 
     """Word filter class"""
@@ -18,10 +18,18 @@ class Filter(webapp2.RequestHandler):
     wordList = ["maverick","ranger","rocket","chicago","bear","wizard","seattle",
                 "atlanta","miami","austin","boston","pittsburgh","heat","saint",
                 "hawk","king"]
-
+    defaultList = ["maverick","ranger","rocket","chicago","bear","wizard","seattle",
+                "atlanta","miami","austin","boston","pittsburgh","heat","saint",
+                "hawk","king"]
     def post(self):
 
         """ Post method to filtering """
+        #set wordList, if user set
+        list = self.request.get('list')
+        if len(list) != 0:
+            self.__class__.wordList = list.split(" ")
+        else:
+            self.__class__.wordList = self.__class__.defaultList
         #get user input text
         text = self.request.get('param')
         textList = str(text).split(" ")
@@ -46,7 +54,9 @@ class Filter(webapp2.RequestHandler):
                     result.append(word)
         #construct result word List
         word = " ".join(result)
-        self.response.out.write(word)
+        output = {'list': " ".join(self.__class__.wordList), 'result' : word}
+        output = json.dumps(output)
+        self.response.out.write(output)
 
         ##self.response.out.write(str(text) + " Hello World!")
 
