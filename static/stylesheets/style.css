@@ -1,0 +1,45 @@
+h2{
+  text-align:center;
+  position:relative;
+  top: 20px;
+  
+}
+#div1{
+
+	position:relative;
+	top:20px;
+
+
+}
+#div2{
+
+	position:relative;
+	top:50px;
+
+
+}
+#filterList{
+
+	position:relative;
+	top:30px;
+	
+}
+#filterList label{
+
+	color: #F00;
+}
+#result{
+
+	position:relative;
+	top:40px;
+}
+#result label{
+
+	color: #00F;
+
+}
+#submit{
+
+	position: relative;
+	top: 20px;
+}
