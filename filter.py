@@ -10,6 +10,7 @@
 
 import webapp2
 import json
+import logging
 class Filter(webapp2.RequestHandler):
 
     """Word filter class"""
@@ -30,12 +31,15 @@ class Filter(webapp2.RequestHandler):
             self.__class__.wordList = list.split(" ")
         else:
             self.__class__.wordList = self.__class__.defaultList
+        logging.info("word list is " + str(self.__class__.wordList))
         #get user input text
         text = self.request.get('param')
+        logging.info("message is " + str(text))
         textList = str(text).split(" ")
         result = []
+        logging.info("Start filtering")
         for word in textList:
-
+            logging.info(word)
             length = len(word)
             if word in self.__class__.wordList: #if word is in wordList REPLACE WORD WITH *
                 result.append('*' * length)
@@ -46,6 +50,8 @@ class Filter(webapp2.RequestHandler):
                     end_part = word[start:]
                     #if two parts in the word are in the wordList, REPLACE WORD WITH *
                     if front_part in self.__class__.wordList and end_part in self.__class__.wordList:
+                        logging.info(front_part)
+                        logging.info(end_part)
                         result.append('*' * length)
                         break
                     start = start + 1
@@ -56,6 +62,7 @@ class Filter(webapp2.RequestHandler):
         word = " ".join(result)
         output = {'list': " ".join(self.__class__.wordList), 'result' : word}
         output = json.dumps(output)
+        logging.info(output)
         self.response.out.write(output)
 
         ##self.response.out.write(str(text) + " Hello World!")
