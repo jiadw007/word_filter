@@ -22,14 +22,15 @@ class Filter(webapp2.RequestHandler):
     defaultList = ["maverick","ranger","rocket","chicago","bear","wizard","seattle",
                 "atlanta","miami","austin","boston","pittsburgh","heat","saint",
                 "hawk","king"]
+
     def post(self):
 
         """ Post method to filtering """
         #set wordList, if user set
         list = self.request.get('list')
-        if len(list) != 0:
+        if len(list) != 0: #if user sets their own list
             self.__class__.wordList = list.split(" ")
-        else:
+        else: # if user does not set their own list
             self.__class__.wordList = self.__class__.defaultList
         logging.info("word list is " + str(self.__class__.wordList))
         #get user input text
@@ -64,8 +65,6 @@ class Filter(webapp2.RequestHandler):
         output = json.dumps(output)
         logging.info(output)
         self.response.out.write(output)
-
         ##self.response.out.write(str(text) + " Hello World!")
-
 
 application = webapp2.WSGIApplication([("/filter", Filter)],debug = True)
