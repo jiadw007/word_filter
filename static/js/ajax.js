@@ -13,16 +13,14 @@ $(document).ready(function(){
 			data: data,
 			dataType: "json",
 			success: function(data){
-				$("#filterList").html(data.list);
-				$("#result").html(data.result);
-			
+				$("#filterList").html("Word list is <label>" + data.list + "</label>");
+				$("#result").html("After filtering, result is <label>" + data.result + "</label>");
 			
 			}
 		
 		
-		
-		
 		});
+		return false;
 	});
 
 });

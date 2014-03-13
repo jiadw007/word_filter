@@ -5,12 +5,17 @@
 <script src="/js/ajax.js"></script>
 </head>
 <body>
-If you want, set your own filtering list here:
+<h2>Welcome to Word Filter Application</h2><br />
+<div id="div1">
+If you want, set your own filtering list here<a href="#" data-toggle="tooltip" title="If you don't set it, it will use the default word list (split by space)." class="tips">?</a>:
 <input type="text" name="list"><br/>
+</div>
 <div id="filterList"></div>
 <div id="result"></div>
-Please input your message:
+<div id="div2">
+Please input your message<a href="#" data-toggle="tooltip" title="Your message should be split by space." class="tips">?</a>:
 <input type="text" name="message"><br/>
 <button type="button" id="submit">Sumbit</button><br/>
+</div>
 </body>
 </html>
