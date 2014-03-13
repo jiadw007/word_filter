@@ -24,21 +24,36 @@ class Filter(webapp2.RequestHandler):
                 "hawk","king"]
 
     def post(self):
-
         """ Post method to filtering """
         #set wordList, if user set
-        list = self.request.get('list')
-        if len(list) != 0: #if user sets their own list
-            self.__class__.wordList = list.split(" ")
-        else: # if user does not set their own list
-            self.__class__.wordList = self.__class__.defaultList
+        self.setWordList(self.request.get('list'))
         logging.info("word list is " + str(self.__class__.wordList))
         #get user input text
         text = self.request.get('param')
         logging.info("message is " + str(text))
         textList = str(text).split(" ")
-        result = []
         logging.info("Start filtering")
+        result = self.wordFilter(textList)
+        #construct result word List
+        output = {'list': " ".join(self.__class__.wordList), 'result' : " ".join(result)}
+        output = json.dumps(output)
+        logging.info(output)
+        self.response.out.write(output)
+        ##self.response.out.write(str(text) + " Hello World!")
+
+    def setWordList(self,words):
+        """Set word List"""
+        if len(words) != 0: #if user sets their own list
+            self.__class__.wordList = words.split(" ")
+        else: # if user does not set their own list
+            self.__class__.wordList = self.__class__.defaultList
+
+    def wordFilter(self,textList):
+
+        """filter each word in the text list
+            construct the result list
+        """
+        result = []
         for word in textList:
             logging.info(word)
             length = len(word)
@@ -59,12 +74,7 @@ class Filter(webapp2.RequestHandler):
                 #if all substring combination are not in the wordList, append word to result list
                 if start == length:
                     result.append(word)
-        #construct result word List
-        word = " ".join(result)
-        output = {'list': " ".join(self.__class__.wordList), 'result' : word}
-        output = json.dumps(output)
-        logging.info(output)
-        self.response.out.write(output)
-        ##self.response.out.write(str(text) + " Hello World!")
+
+        return result
 
 application = webapp2.WSGIApplication([("/filter", Filter)],debug = True)
